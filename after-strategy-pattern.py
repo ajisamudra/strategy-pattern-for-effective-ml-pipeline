@@ -12,12 +12,12 @@ from sklearn.preprocessing import StandardScaler
 class Algorithm(ABC):
     @abstractmethod
     def fit(self, X_train: pd.DataFrame, y_train: pd.Series) -> None:
-        # the implementation will be defined in derived class
+        # the implementation will be defined in concrete class
         pass
 
     @abstractmethod
     def predict(self, X_test: pd.DataFrame) -> np.ndarray:
-        # the implementation will be defined in derived class
+        # the implementation will be defined in concrete class
         pass
 
 
@@ -28,15 +28,15 @@ class LogReg(Algorithm):
 
     def fit(self, X_train: pd.DataFrame, y_train: pd.Series) -> None:
         # fit scaler to features on X_train
-        X_train = self.__scaler.fit_transform(X_train)
+        transformed_X_train = self.__scaler.fit_transform(X_train)
         # fit to logistic regression
-        self.__model.fit(X_train, y_train)
+        self.__model.fit(transformed_X_train, y_train)
         return self
 
     def predict(self, X_test: pd.DataFrame) -> np.ndarray:
         # scale features on X_test
-        X_test = self.__scaler.transform(X_test)
-        return self.__model.predict(X_test)
+        transformed_X_test = self.__scaler.transform(X_test)
+        return self.__model.predict(transformed_X_test)
 
 
 class GradientBoosting(Algorithm):
@@ -90,7 +90,7 @@ class Pipeline:
         )
 
 
-def train_pipeline(algorithm: Algorithm) -> None:
+if __name__ == "__main__":
     # get Iris data in DataFrame
     X, y = datasets.load_iris(return_X_y=True, as_frame=True)
 
@@ -99,14 +99,14 @@ def train_pipeline(algorithm: Algorithm) -> None:
         X, y, test_size=0.2, random_state=123
     )
 
-    pipeline = Pipeline(algorithm, X_train, X_test, y_train, y_test)
+    algorithm1 = LogReg()
+    pipeline = Pipeline(algorithm1, X_train, X_test, y_train, y_test)
     pipeline.train()
 
-
-if __name__ == "__main__":
-    algorithm1 = LogReg()
-    train_pipeline(algorithm1)
     algorithm2 = GradientBoosting(n_estimators=50)
-    train_pipeline(algorithm2)
-    algorithm3 = "logistic_regression"
-    train_pipeline(algorithm3)  # this will throw error
+    pipeline = Pipeline(algorithm2, X_train, X_test, y_train, y_test)
+    pipeline.train()
+
+    algorithm3 = "logistic_regression"  # this will throw error
+    pipeline = Pipeline(algorithm3, X_train, X_test, y_train, y_test)
+    pipeline.train()

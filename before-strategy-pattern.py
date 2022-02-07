@@ -18,10 +18,12 @@ def train_pipeline(
     # fit the algorithm
     if algorithm == "logistic_regression":
         model = LogisticRegression()
+
         # scale features on X
         scaler = StandardScaler()
         transformed_X_train = scaler.fit_transform(X_train)
         transformed_X_test = scaler.transform(X_test)
+
         # fit to logistic regression
         model.fit(transformed_X_train, y_train)
 
@@ -35,10 +37,12 @@ def train_pipeline(
 
     elif algorithm == "gradient_boosting":
         model = LGBMClassifier()
+
         # split the X_train again to get X_val
         X_train, X_val, y_train, y_val = train_test_split(
             X_train, y_train, test_size=0.2, random_state=123
         )
+
         # fit to gradient boosting
         # with early stopping
         # and eval_set to prevent overfitting
@@ -51,6 +55,7 @@ def train_pipeline(
                 log_evaluation(0),
             ],
         )
+
         # get training evaluation score
         y_train_pred = model.predict(X_train)
         train_score = accuracy_score(y_train, y_train_pred)

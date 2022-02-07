@@ -29,6 +29,7 @@ class LogReg(Algorithm):
     def fit(self, X_train: pd.DataFrame, y_train: pd.Series) -> None:
         # fit scaler to features on X_train
         transformed_X_train = self.__scaler.fit_transform(X_train)
+
         # fit to logistic regression
         self.__model.fit(transformed_X_train, y_train)
         return self
@@ -48,6 +49,7 @@ class GradientBoosting(Algorithm):
         X_train, X_val, y_train, y_val = train_test_split(
             X_train, y_train, test_size=0.2, random_state=123
         )
+
         # fit to gradient boosting
         self.__model.fit(
             X_train,

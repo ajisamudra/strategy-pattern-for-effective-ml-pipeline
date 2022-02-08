@@ -1,5 +1,8 @@
 # Strategy Design Pattern for Effective ML Pipeline
 
+## Generating Class Diagram
+
+I use [mermaid.live](https://mermaid.live/) to generate class diagram.
 ## Environment
 
 This scripts run using python 3.9. I use Anaconda to set the environment.

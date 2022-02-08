@@ -1,0 +1,54 @@
+classDiagram-v2
+      class Pipeline{
+        Pipeline: +Algorithm algorithm
+        Pipeline: +FeatureEnricher enricher
+        Pipeline: +DataFrame X_train
+        Pipeline: +DataFrame X_test
+        Pipeline: +Series y_train
+        Pipeline: +Series y_test
+        Pipeline: +train()
+      }
+      Pipeline ..> Algorithm: Dependency
+      Pipeline ..> FeatureEnricher: Dependency
+      class Algorithm{
+        <<interface>>
+        Algorithm: +model model
+        Algorithm: +fit(X_train, y_train)
+        Algorithm: +predict(X_test)
+      }
+      Algorithm ..|> LogisticRegression: Realization
+      Algorithm ..|> GradientBoosting: Realization
+      Algorithm ..|> DecisionTree: Realization
+      class LogisticRegression{
+        +fit(X_train, y_train)
+        +predict(X_test)
+      }
+      class GradientBoosting{
+        +fit(X_train, y_train)
+        +predict(X_test)
+      }
+      class DecisionTree{
+        +fit(X_train, y_train)
+        +predict(X_test)
+      }
+
+      class FeatureEnricher{
+        <<interface>>
+      FeatureEnricher: +fit(X)
+      FeatureEnricher: +transform(X)
+      }
+      FeatureEnricher ..|> LogTransformation: Realization
+      FeatureEnricher ..|> SquareRootTransformation: Realization
+      FeatureEnricher ..|> BinningTransformation: Realization
+      class LogTransformation{
+          +fit(X)
+          +transform(X)
+      }
+      class SquareRootTransformation{
+          +fit(X)
+          +transform(X)
+      }
+      class BinningTransformation{
+          +fit(X)
+          +transform(X)
+      }

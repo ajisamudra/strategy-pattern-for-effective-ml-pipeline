@@ -16,9 +16,9 @@ classDiagram-v2
         Algorithm: +fit(X_train, y_train)
         Algorithm: +predict(X_test)
       }
-      Algorithm ..|> LogisticRegression: Realization
-      Algorithm ..|> GradientBoosting: Realization
-      Algorithm ..|> DecisionTree: Realization
+      Algorithm <|.. LogisticRegression: Realization
+      Algorithm <|.. GradientBoosting: Realization
+      Algorithm <|.. DecisionTree: Realization
       class LogisticRegression{
         +fit(X_train, y_train)
         +predict(X_test)
@@ -37,9 +37,9 @@ classDiagram-v2
       FeatureEnricher: +fit(X)
       FeatureEnricher: +transform(X)
       }
-      FeatureEnricher ..|> LogTransformation: Realization
-      FeatureEnricher ..|> SquareRootTransformation: Realization
-      FeatureEnricher ..|> BinningTransformation: Realization
+      FeatureEnricher <|.. LogTransformation: Realization
+      FeatureEnricher <|.. SquareRootTransformation: Realization
+      FeatureEnricher <|.. BinningTransformation: Realization
       class LogTransformation{
           +fit(X)
           +transform(X)

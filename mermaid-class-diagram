@@ -2,14 +2,12 @@ classDiagram-v2
       class Pipeline{
         Pipeline: +Algorithm algorithm
         Pipeline: +FeatureEnricher enricher
-        Pipeline: +DataFrame X_train
-        Pipeline: +DataFrame X_test
-        Pipeline: +Series y_train
-        Pipeline: +Series y_test
+        Pipeline: +Dataset dataset
         Pipeline: +train()
       }
       Pipeline ..> Algorithm: Dependency
       Pipeline ..> FeatureEnricher: Dependency
+      Pipeline ..> Dataset: Dependency
       class Algorithm{
         <<interface>>
         Algorithm: +model model
@@ -18,16 +16,12 @@ classDiagram-v2
       }
       Algorithm <|.. LogisticRegression: Realization
       Algorithm <|.. GradientBoosting: Realization
-      Algorithm <|.. DecisionTree: Realization
+
       class LogisticRegression{
         +fit(X_train, y_train)
         +predict(X_test)
       }
       class GradientBoosting{
-        +fit(X_train, y_train)
-        +predict(X_test)
-      }
-      class DecisionTree{
         +fit(X_train, y_train)
         +predict(X_test)
       }
@@ -38,17 +32,19 @@ classDiagram-v2
       FeatureEnricher: +transform(X)
       }
       FeatureEnricher <|.. LogTransformation: Realization
-      FeatureEnricher <|.. SquareRootTransformation: Realization
-      FeatureEnricher <|.. BinningTransformation: Realization
+
       class LogTransformation{
           +fit(X)
           +transform(X)
       }
-      class SquareRootTransformation{
-          +fit(X)
-          +transform(X)
+
+      class Dataset{
+        <<interface>>
+      Dataset: +read()
+      Dataset: +train_test_split()
       }
-      class BinningTransformation{
+      Dataset <|.. IrisDataset: Realization
+      class IrisDataset{
           +fit(X)
           +transform(X)
       }
